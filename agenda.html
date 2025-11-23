@@ -18,16 +18,16 @@
     <div class="container">
         <header>
             <div class="right-controls">
-                <button class="nav-btn" id="nextMonth">التالي &#10095;</button>
+                <button class="nav-btn" id="nextMonth"> &#10094; التالي</button>
                 <button class="nav-btn secondary" id="goToToday" title="العودة للشهر الحالي">اليوم</button>
             </div>
-            
+
             <div class="month-year-display" id="dateDisplay">
                 <span id="monthName"></span>
                 <span id="yearNum"></span>
             </div>
-            
-            <button class="nav-btn" id="prevMonth">&#10094; السابق</button>
+
+            <button class="nav-btn" id="prevMonth">السابق &#10095; </button>
         </header>
 
         <div class="year-selector" id="yearSelector"></div>
@@ -45,18 +45,9 @@
         <div class="calendar-grid" id="calendarBody"></div>
 
         <div class="footer-controls">
-            
-            <div class="stats-row">
-                رصيد إجازات الشهر = 
-                أيام العمل الفعلية (<span id="actualWorkDays" class="highlight-num">0</span>) 
-                - أيام العمل المطلوبة (<input type="number" id="requiredWorkDays" class="input-days" value="17">) 
-                = <span id="monthBalance" class="final-balance">0</span>
-            </div>
 
-            <div class="file-upload-section">
-                <label for="excelFile"><strong>📂 رفع ملف الإجازات (Excel):</strong></label>
-                <input type="file" id="excelFile" accept=".xlsx, .xls">
-                <span class="note">(العمود 1: التاريخ، العمود 2: اسم الإجازة)</span>
+            <div class="stats-row">
+                رصيد إجازات الشهر = <br>أيام العمل الفعلية (<span id="actualWorkDays" class="highlight-num">0</span>) - أيام العمل المطلوبة (<input type="number" id="requiredWorkDays" class="input-days" value="17">) = <span id="monthBalance" class="final-balance">0</span>
             </div>
         </div>
     </div>
