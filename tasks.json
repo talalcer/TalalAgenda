@@ -2,7 +2,7 @@
     "name": "مهامي - تتبع مهامك",
     "short_name": "مهامي",
     "description": "تطبيق ويب لتتبع المهام اليومية وتنظيمها بسهولة.",
-    "start_url": "فشسنس.html",
+    "start_url": "task.html",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#2563eb",
