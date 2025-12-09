@@ -397,6 +397,68 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* --- Info Banner Style --- */
+        .info-banner {
+            background: linear-gradient(to left, #ffffff, #eff6ff);
+            border: 1px solid #dbeafe;
+            border-right: 5px solid var(--accent-color); /* الشريط الجانبي الملون */
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-bottom: 35px; /* مسافة تفصله عن التطبيقات */
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .info-banner:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .info-icon {
+            flex-shrink: 0;
+            color: var(--accent-color);
+            margin-top: 3px;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-title {
+            display: block;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            font-size: 1.05rem;
+        }
+
+        .info-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            text-align: justify;
+        }
+        
+        /* تحسين العرض على الجوال */
+        @media (max-width: 600px) {
+            .info-banner {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 15px;
+            }
+            .info-text {
+                text-align: center;
+            }
+            .info-icon {
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -425,9 +487,25 @@
         </div>
     </header>
 
-    <main id="appContainer">
-        <div class="apps-grid" id="appsGrid">
+<main id="appContainer">
+        
+        <div class="info-banner">
+            <div class="info-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="M8 11h8"></path>
+                    <path d="M12 15V11"></path>
+                </svg>
+            </div>
+            <div class="info-content">
+                <span class="info-title">تنويه هام بشأن الخصوصية والأمان</span>
+                <p class="info-text">
+                    جميع الأدوات المستخدمة تعمل من خلال الويب، إلا أنها صممت لمعالجة الملفات محلياً على جهاز المستخدم دون رفع أي منها إلى الخوادم الخارجية. ويمكن التحقق من ذلك بسهولة من خلال متابعة العمل بعد فصل الاتصال بالإنترنت، حيث ستستمر الأدوات في أداء مهامها بكفاءة دون تأثر.
+                </p>
+            </div>
         </div>
+        <div class="apps-grid" id="appsGrid">
+            </div>
     </main>
 
     <footer>
@@ -459,5 +537,6 @@
 </body>
 
 </html>
+
 
 
