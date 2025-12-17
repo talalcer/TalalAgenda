@@ -3,12 +3,13 @@
     "extension": ".tec",
     "links": [
         { "title": " مراجعة IT System Audit", "file": "itodit" },
-        { "title": " مراجعة العملاء", "file": "accntreciv" },
+        { "title": " مراجعة العملاء", "file": "reciv" },
         { "title": " مراجعة المخزون", "file": "invent" }
 
     ]
 
 }
+
 
 
 
