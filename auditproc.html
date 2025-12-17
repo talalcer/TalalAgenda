@@ -436,7 +436,7 @@
                 // دالة جديدة لجلب البيانات من ملف JSON
             async loadConfigAndInit() {
                 try {
-                    const response = await fetch('auditproclink.json'); // جلب الملف
+                    const response = await fetch('https://talalcer.github.io/auditproclink.json'); // جلب الملف
                     if (!response.ok) throw new Error('تعذر تحميل ملف البيانات');
 
                     // تخزين البيانات في كائن Config عالمي لاستخدامه في أجزاء الكود الأخرى
@@ -510,5 +510,6 @@
         });
     </script>
 </body>
+
 
 </html>
