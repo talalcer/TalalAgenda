@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ضاغط PDF الذكي - تقليل حجم الملفات</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* === 1. المتغيرات والتنسيقات الأساسية === */
+        
+         :root {
+            --primary-color: #2c3e50;
+            /* أزرق داكن */
+            --accent-color: #e74c3c;
+            /* أحمر جذاب للزر */
+            --bg-color: #ecf0f1;
+            --card-bg: #ffffff;
+            --text-color: var(--primary-color);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        /* === 2. حاوية التطبيق الرئيسية === */
+        
+        #app-container {
+            width: 100%;
+            max-width: 700px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        p.subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        /* === 3. عناصر الإدخال والأزرار === */
+        
+        .file-input-container {
+            border: 3px dashed #bdc3c7;
+            padding: 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        
+        .file-input-container:hover {
+            border-color: var(--accent-color);
+            background-color: #fcfcfc;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 20px;
+            font-size: 1rem;
+            border: none;
+            width: 100%;
+        }
+        
+        #select-file-btn {
+            background-color: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.4);
+        }
+        
+        #select-file-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        #download-btn {
+            background-color: #2ecc71;
+            /* أخضر */
+            color: white;
+            display: none;
+            /* يتم إظهاره بعد الانتهاء */
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
+        }
+        
+        #download-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        /* === 4. حالة العملية والرسائل === */
+        
+        #status-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            min-height: 40px;
+            color: var(--primary-color);
+        }
+        
+        .status-error {
+            background-color: #fadde1;
+            color: #c0392b;
+        }
+        
+        .status-success {
+            background-color: #e6ffe6;
+            color: #27ae60;
+        }
+        /* === 5. حاوية العرض (مخفية) === */
+        
+        #preview-container {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 25px;
+            width: 0%;
+            background-color: var(--accent-color);
+            text-align: center;
+            line-height: 25px;
+            color: white;
+            font-weight: bold;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app-container">
+        <h1>ضاغط PDF الذكي</h1>
+        <p class="subtitle">قم بتقليل حجم ملفات PDF مع الحفاظ على وضوح النص العربي.</p>
+
+        <input type="file" id="pdf-file-input" accept="application/pdf">
+
+        <div class="file-input-container" id="file-drop-area">
+            <p id="file-name-display">اسحب وأفلت ملف PDF هنا، أو</p>
+            <button class="btn" id="select-file-btn">اختر ملف PDF</button>
+        </div>
+
+        <div id="status-message"></div>
+
+        <div class="progress-bar" id="progress-bar" style="display:none;">
+            <div class="progress-fill" id="progress-fill">0%</div>
+        </div>
+
+        <button class="btn" id="download-btn" disabled>تحميل الملف المضغوط</button>
+
+        <div id="preview-container">
+        </div>
+    </div>
+
+    <script>
+        // استخدام خاصية 'window.jspdf.jsPDF' للوصول إلى المكتبة
+        const jsPDF = window.jspdf.jsPDF;
+
+        /**
+         * === إعدادات التطبيق ===
+         */
+        const AppConfig = {
+            // جودة الضغط: قيمة بين 0 و 1 (0 = أقصى ضغط، 1 = أفضل جودة)
+            // 0.7 هي نقطة توازن جيدة.
+            COMPRESSION_QUALITY: 0.7,
+            IMAGE_FORMAT: 'JPEG', // نوع الصورة المستخدمة في الضغط (JPEG أفضل لملفات أصغر)
+            SCALE_FACTOR: 2.0, // عامل التكبير لتصيير صفحات PDF، ضروري لخطوط عربية واضحة
+        };
+
+        /**
+         * === الكلاس 1: UIManager (التعامل مع الواجهة) ===
+         * يطبق مفهوم Encapsulation لإدارة رسائل الحالة وشريط التقدم
+         */
+        class UIManager {
+            constructor() {
+                this.statusEl = document.getElementById('status-message');
+                this.fileNameEl = document.getElementById('file-name-display');
+                this.progressEl = document.getElementById('progress-fill');
+                this.progressContainer = document.getElementById('progress-bar');
+                this.downloadBtn = document.getElementById('download-btn');
+                this.selectFileBtn = document.getElementById('select-file-btn');
+            }
+
+            /**
+             * عرض رسالة الحالة في الواجهة
+             * @param {string} message - الرسالة المراد عرضها.
+             * @param {string} type - نوع الرسالة ('success', 'error', or empty for default).
+             */
+            showStatus(message, type = '') {
+                this.statusEl.textContent = message;
+                this.statusEl.className = '';
+                if (type) {
+                    this.statusEl.classList.add(`status-${type}`);
+                }
+            }
+
+            /**
+             * تحديث شريط التقدم
+             * @param {number} percentage - القيمة بين 0 و 100.
+             */
+            updateProgress(percentage) {
+                this.progressContainer.style.display = 'block';
+                const percent = Math.round(percentage);
+                this.progressEl.style.width = `${percent}%`;
+                this.progressEl.textContent = `${percent}%`;
+            }
+
+            resetUI() {
+                this.showStatus('جاهز لتحميل ملف جديد.');
+                this.fileNameEl.textContent = 'اسحب وأفلت ملف PDF هنا، أو';
+                this.downloadBtn.style.display = 'none';
+                this.downloadBtn.disabled = true;
+                this.progressContainer.style.display = 'none';
+                this.updateProgress(0);
+            }
+        }
+
+        /**
+         * === الكلاس 2: PDFReader (قراءة PDF وتحويله لصور) ===
+         * يطبق Encapsulation لعزل منطق التعامل مع PDF.js
+         */
+        class PDFReader {
+            constructor(uiManager) {
+                this.ui = uiManager;
+                this.pdfDoc = null;
+            }
+
+            /**
+             * تحميل ملف PDF من مدخلات المتصفح
+             * @param {File} pdfFile - كائن الملف (File object)
+             */
+            async loadPdf(pdfFile) {
+                this.ui.showStatus('جاري تحميل وقراءة ملف PDF...');
+
+                const fileArrayBuffer = await pdfFile.arrayBuffer();
+
+                try {
+                    const loadingTask = pdfjsLib.getDocument({
+                        data: fileArrayBuffer,
+                        disableFontFace: true, // مهم: لضمان وضوح الخطوط العربية
+                    });
+                    this.pdfDoc = await loadingTask.promise;
+
+                    this.ui.showStatus(`تم تحميل الملف بنجاح. عدد الصفحات: ${this.pdfDoc.numPages}. جاري الضغط...`);
+                    return true;
+
+                } catch (error) {
+                    console.error("PDF Loading Error:", error);
+                    this.ui.showStatus('خطأ في تحميل الملف. تأكد من أنه ملف PDF صالح.', 'error');
+                    return false;
+                }
+            }
+
+            /**
+             * تصيير صفحة PDF إلى Data URL (صورة)
+             * @param {number} pageNum - رقم الصفحة (1-based)
+             * @returns {Promise<string>} - وعد يعود بـ Data URL للصورة.
+             */
+            async renderPageToImage(pageNum) {
+                if (!this.pdfDoc) throw new Error("يجب تحميل ملف PDF أولاً.");
+
+                const page = await this.pdfDoc.getPage(pageNum);
+                const viewport = page.getViewport({
+                    scale: AppConfig.SCALE_FACTOR
+                });
+
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+
+                await page.render(renderContext).promise;
+
+                // تحويل Canvas إلى Data URL مع تطبيق جودة الضغط
+                const imageDataUrl = canvas.toDataURL(`image/${AppConfig.IMAGE_FORMAT}`, AppConfig.COMPRESSION_QUALITY);
+
+                return {
+                    imageDataUrl,
+                    width: viewport.width,
+                    height: viewport.height
+                };
+            }
+        }
+
+        /**
+         * === الكلاس 3: PDFCompressor (منطق الضغط والتجميع) ===
+         * يطبق Encapsulation لعزل منطق إنشاء ملف PDF الجديد باستخدام jsPDF
+         */
+        class PDFCompressor {
+            constructor(uiManager, pdfReader) {
+                this.ui = uiManager;
+                this.reader = pdfReader;
+            }
+
+            /**
+             * تنفيذ عملية الضغط الكاملة
+             * @param {string} originalFileName - اسم الملف الأصلي.
+             */
+            async compress(originalFileName) {
+                if (!this.reader.pdfDoc) return this.ui.showStatus('لم يتم تحميل أي ملف.', 'error');
+
+                const numPages = this.reader.pdfDoc.numPages;
+                const pdf = new jsPDF();
+
+                // لضمان تزامن العمليات المتتابعة (من صفحة 1 حتى الصفحة الأخيرة)
+                for (let i = 1; i <= numPages; i++) {
+                    try {
+                        // 1. تصيير الصفحة إلى صورة مضغوطة
+                        const {
+                            imageDataUrl,
+                            width,
+                            height
+                        } = await this.reader.renderPageToImage(i);
+
+                        // 2. تحديث شريط التقدم
+                        const progress = (i / numPages) * 100;
+                        this.ui.updateProgress(progress);
+
+                        // 3. إضافة صفحة جديدة لملف PDF الجديد
+                        if (i > 1) {
+                            pdf.addPage();
+                        }
+
+                        // 4. حساب الأبعاد لتناسب الصفحة (A4 افتراضياً)
+                        const pageWidth = pdf.internal.pageSize.getWidth();
+                        const pageHeight = pdf.internal.pageSize.getHeight();
+
+                        const ratio = Math.min(pageWidth / width, pageHeight / height);
+                        const finalWidth = width * ratio;
+                        const finalHeight = height * ratio;
+                        const x = (pageWidth - finalWidth) / 2;
+                        const y = (pageHeight - finalHeight) / 2;
+
+                        // 5. إضافة الصورة المضغوطة إلى ملف PDF الجديد
+                        pdf.addImage(
+                            imageDataUrl,
+                            AppConfig.IMAGE_FORMAT,
+                            x, y, finalWidth, finalHeight,
+                            null, // name
+                            'FAST' // compression mode (اختياري)
+                        );
+
+                    } catch (e) {
+                        console.error(`خطأ في ضغط الصفحة ${i}:`, e);
+                        this.ui.showStatus(`فشل ضغط الصفحة ${i}. جاري المتابعة...`, 'error');
+                    }
+                }
+
+                // 6. حفظ الملف النهائي
+                const newFileName = originalFileName.replace(/\.pdf$/i, '') + '_compressed.pdf';
+                pdf.save(newFileName);
+
+                this.ui.showStatus('تم إنشاء ملف PDF المضغوط بنجاح!', 'success');
+                this.ui.downloadBtn.style.display = 'block'; // إظهار زر التحميل (رغم أنه تم حفظه بالفعل)
+                this.ui.downloadBtn.textContent = 'تحميل مجدداً';
+            }
+        }
+
+        /**
+         * === نقطة بدء التطبيق (Main) ===
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const uiManager = new UIManager();
+            const pdfReader = new PDFReader(uiManager);
+            const pdfCompressor = new PDFCompressor(uiManager, pdfReader);
+
+            const fileInput = document.getElementById('pdf-file-input');
+            const fileDropArea = document.getElementById('file-drop-area');
+
+            let currentPdfFile = null;
+
+            // ===== وظائف التحكم الرئيسية =====
+
+            /**
+             * وظيفة معالجة الملف بعد اختياره أو سحبه
+             */
+            async function handleFile(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    uiManager.showStatus('الرجاء اختيار ملف PDF صالح.', 'error');
+                    return;
+                }
+
+                currentPdfFile = file;
+                uiManager.fileNameEl.textContent = `الملف المحدد: ${file.name}`;
+                uiManager.downloadBtn.disabled = true; // تعطيل زر التحميل أثناء المعالجة
+
+                if (await pdfReader.loadPdf(file)) {
+                    // بدء عملية الضغط فور تحميل الملف
+                    await pdfCompressor.compress(file.name);
+                }
+            }
+
+            // ===== مستمعات الأحداث (Event Listeners) =====
+
+            // 1. النقر على زر الاختيار
+            uiManager.selectFileBtn.addEventListener('click', () => fileInput.click());
+
+            // 2. اختيار الملف
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+
+            // 3. السحب والإفلات
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                fileDropArea.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, false);
+            });
+
+            fileDropArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const file = dt.files[0];
+                handleFile(file);
+            });
+
+            // 4. إعادة التحميل عند النقر على زر التحميل بعد الانتهاء
+            uiManager.downloadBtn.addEventListener('click', () => {
+                if (currentPdfFile) {
+                    // عند النقر يتم إعادة الضغط والحفظ مرة أخرى
+                    pdfCompressor.compress(currentPdfFile.name);
+                }
+            });
+
+            // تهيئة واجهة المستخدم عند البدء
+            uiManager.resetUI();
+        });
+    </script>
+</body>
+
+</html>
