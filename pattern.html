@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق محرر الملاحظات النمطية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .copyright {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .images-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .img-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            background: white;
+        }
+        
+        .img-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .intro {
+            background: #f8f9fa;
+            border-right: 5px solid #4a6491;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .intro h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .instructions {
+            background: #e8f4fd;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            text-align: center;
+        }
+        
+        .instructions ol {
+            counter-reset: item;
+            list-style-type: none;
+            padding-right: 20px;
+        }
+        
+        .instructions li {
+            counter-increment: item;
+            margin-bottom: 15px;
+            position: relative;
+            padding-right: 40px;
+        }
+        
+        .instructions li:before {
+            content: counter(item);
+            background: #4a6491;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-weight: bold;
+        }
+        
+        .download-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(45deg, #2c3e50, #4a6491);
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .download-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .download-btn:hover {
+            background: #229954;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .signature {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .images-container {
+                justify-content: center;
+                gap: 20px;
+            }
+            .img-circle {
+                width: 100px;
+                height: 100px;
+            }
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>تطبيق محرر الملاحظات النمطية</h1>
+            <div class="copyright">الحقوق محفوظة طلال السريتي | Talal Cerity</div>
+        </div>
+
+        <div class="images-container">
+            <div class="img-circle">
+                <img src="https://talalcer.github.io/fuel-img/talal512.png" alt="طلال السريتي">
+            </div>
+            <div class="img-circle">
+                <img src="https://talalcer.github.io/fuel-img/mizan.png" alt="شركة ميزان">
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <h2>الفكرة الرئيسية</h2>
+                <p style="text-align: justify;">وجود العديد من الملاحظات المتكررة تتضمن بعض الكلمات، او الجمل، او المبالغ، او التواريخ التي تتغير فقط مثل اسم الجهة او المبلغ والتاريخ كما ذكرنا ويتم تظليل خلفية تلك المتغيرات بلون مميز كالأخضر وعند تشغيل التطبيق سيقوم برصدها والوقوف عندها
+                    إما للتغيير أو التخطي.</p>
+            </div>
+
+            <div class="instructions">
+                <h3 style="border-bottom: 2px solid #000; padding-bottom: 5px;">اقرأ التعليمات التالية قبل التشغيل</h3>
+                <ol style="text-align: justify;">
+                    <li>تنزيل الملف بالرابط أسفل الصفحة.</li>
+                    <li>فك الضغط عن الملف.</li>
+                    <li>تشغيل ملف setup الموجود داخل المجلد ستظهر بعض الرسائل اضغط OK.</li>
+                    <li>سيظهر اختصار على سطح المكتب باسم Pattern Template كما ينشأ مجلد باسم Custom Office Template داخل مجلد MyDocuments وبه ملف pattern.dotm</li>
+                    <li>pattern.dotm هو الملف الأساسي الذي سيتضمن الملاحظات النمطية التي تحددها انت او نسخها من ملف اخر كما ستقوم بتظليل المتغيرات التي سبق ذكرها.</li>
+                    <li>فتح الملف pattern.dotm <span style="text-decoration: line-through; color: red;">لا يكون بالطريقة العادية بالضغط مرتين عليه</span> بل يجب فتح الوورد أولا واختيار فتح ثم تحديد مكان الملف من MyDocuments → Custom Office Template → pattern.dotm</li>
+                    <li>الملف موجود به عينة يمكن استخدامها مباشرة للتجربة او مسحها وكتابة او نسخ ما تريد مع ضرورة تظليل خلفية الكلمات المراد تغييرها.</li>
+                    <li>بعد حفظ الملف وتشغيل الاختصار الموجود على سطح المكتب (يجب تفعيل تمكين المحتوى عندما تظهر) سينتج ملف جديد باسم document1 وسيظهر امامك مربع حواري يقف عند كل تحديد او كلمة قمت بتظليل خلفيتها وينتظر اما تغييرها او تخطي مع إزالة الخلفية
+                        (حتى تظهر كما هي) او تخطي لتركها مؤقتا والرجوع اليها فيما بعد او الانهاء ويجب حفظ الملف الجديد باسم ما تريده.</li>
+                    <li>عند رصد تاريخ سيقو بزيادة العام - اذا لم ترد الزيادة اضغط تخطي مع ازالة الخلفية</li>
+                    <li>اذا لم يظهر المربع الحواري او اردت تشغيله مرة أخرى اضغط على ALT+T او ALT+F8 واختر تشغيل الماكرو الموجود بالقائمة.</li>
+                    <li>يمكن عمل نسخ مختلفة من ملف pattern.dotm كيفما تريد بأنواع مختلفة من التقارير مثل (ملاحظات مستندي، ملاحظات جرد مفاجئ، ملاحظات ختامي......) وانشئ اختصار لكل ملف على سطح المكتب حتى لا يتعرض للحذف بالخطأ.</li>
+                </ol>
+            </div>
+
+            <div class="download-section">
+                <h3>تحميل التطبيق</h3>
+                <a href="https://talalcer.github.io/pattern.zip" class="download-btn">تحميل التطبيق</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div>تمنياتي بالتوفيق ونسأل الله أن ينفع بنا</div>
+            <div class="signature">🥀🥀 طلال السريتي 🌾🌾</div>
+        </div>
+    </div>
+
+    <script>
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Ctrl+Shift+I (Chrome Inspector)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Ctrl+Shift+J (Chrome Console)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Ctrl+C (Copy)
+            if (e.ctrlKey && e.keyCode === 67) {
+                // Allow copying only from download link
+                if (!e.target.closest('.download-btn')) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+
+            // Ctrl+A (Select All)
+            if (e.ctrlKey && e.keyCode === 65) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable text selection
+        document.addEventListener('selectstart', function(e) {
+            // Allow selection only for download link
+            if (!e.target.closest('.download-btn')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable double-click selection
+        document.addEventListener('mousedown', function(e) {
+            // Prevent double-click selection
+            if (e.detail > 1) {
+                if (!e.target.closest('.download-btn')) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        });
+
+        // Disable copy/paste/cut operations
+        document.addEventListener('copy', function(e) {
+            if (!e.target.closest('.download-btn')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable developer tools via console
+        (function() {
+            'use strict';
+
+            const devtools = {
+                open: false,
+                orientation: null
+            };
+
+            const threshold = 160;
+
+            setInterval(function() {
+                if (window.outerHeight - window.innerHeight > threshold ||
+                    window.outerWidth - window.innerWidth > threshold) {
+                    if (!devtools.open) {
+                        devtools.open = true;
+                        document.body.innerHTML = '<div style="text-align:center; padding:50px; font-size:24px; color:#e74c3c;">أدوات المطورين معطلة في هذه الصفحة</div>';
+                    }
+                } else {
+                    devtools.open = false;
+                }
+            }, 500);
+        })();
+    </script>
+</body>
+
+</html>
