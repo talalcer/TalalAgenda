@@ -6,11 +6,13 @@
         { "title": " مراجعة العملاء", "file": "reciv" },
         { "title": " مراجعة المخزون", "file": "invent" },
         { "title": "اجراءات تحليلية ISA 520", "file": "analy_proc" },
-        { "title": "مراجعة وتقييم نظام الرقابة الداخلية", "file": "int_audit" }
+        { "title": "مراجعة وتقييم نظام الرقابة الداخلية", "file": "int_audit" },
+        { "title": "خطاب الادارة", "file": "manlet" }
 
     ]
 
 }
+
 
 
 
