@@ -7,11 +7,13 @@
         { "title": " مراجعة المخزون", "file": "invent" },
         { "title": "اجراءات تحليلية ISA 520", "file": "analy_proc" },
         { "title": "مراجعة وتقييم نظام الرقابة الداخلية", "file": "int_audit" },
-        { "title": "خطاب الادارة", "file": "manlet" }
+        { "title": "خطاب الادارة", "file": "manlet" },
+        { "title": "الآهداف العامة للمراجع", "file": "gnrlobjct" }
 
     ]
 
 }
+
 
 
 
