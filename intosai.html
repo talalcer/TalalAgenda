@@ -250,8 +250,7 @@
         async function loadContent() {
             try {
                 // ملاحظة: استبدل 'intosai.json' بمسار ملفك الحقيقي
-                const response = await fetch('intosai.json');
-                //const response = await fetch('D:\hp laptop\WaqodAnalys\miracle\intosai.json');
+                const response = await fetch('https://talalcer.github.io/myset/intosai.json');
                 const data = await response.json();
                 const sidebar = document.getElementById('sidebar');
 
@@ -311,5 +310,6 @@
         loadContent();
     </script>
 </body>
+
 
 </html>
