@@ -555,7 +555,7 @@
             static async getApps() {
                 try {
                     // جلب البيانات من ملف خارجي
-                    const response = await fetch('talalapps.json');
+                    const response = await fetch('https://talalcer.github.io/myset/talalapps.json');
                     if (!response.ok) throw new Error("لم يتم العثور على ملف البيانات");
                     return await response.json();
                 } catch (error) {
@@ -640,3 +640,4 @@
 </body>
 
 </html>
+
