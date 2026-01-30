@@ -1,0 +1,70 @@
+{
+    "groups": [{
+            "groupName": "موضوعات وروابط",
+            "topics": [
+                { "title": "اعلان ليما", "url": "https://drive.google.com/file/d/1uPQhcAJdbQAF5CnnW5J3Wre5qtg6ZBVZ/preview" },
+                { "title": "روابط هامة", "url": "https://drive.google.com/file/d/1kPUq8Rwx9S_KAOyzOSj_4aHV0V8fABrn/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الاول",
+            "topics": [
+                { "title": "منظمة الانتوساي", "url": "https://drive.google.com/file/d/1NxpCiJiAaU5cueIvXRRIZayzePhd7mXk/preview" },
+                { "title": "الانتوساي والحوكمة الدولية", "url": "https://drive.google.com/file/d/1N_DXos-d83tFtFolVzKUk1p-xXUIiDlg/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الثاني",
+            "topics": [
+                { "title": "الاطار القانوني والتنظيمي", "url": "https://drive.google.com/file/d/1ML8219G5KNScytMLyIzo-sOiQvs7-f7y/preview" },
+                { "title": "المنظمات الاقليمية", "url": "https://drive.google.com/file/d/1MWKXwYtH0D38ZDkWU-qI8p09RU0lARQ-/preview" },
+                { "title": "GEN AI FOR Accountants 1", "url": "https://drive.google.com/file/d/1IGF-HgSLGGkjz1W34ftfUV_JLTcUv4tQ/preview" },
+                { "title": "GEN AI FOR Accountants 2", "url": "https://drive.google.com/file/d/1aMqQ-g-1YLce3wizNRlyGmq_7Bb7AFbI/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الثالث",
+            "topics": [
+                { "title": "لجان الاهداف", "url": "https://drive.google.com/file/d/11NXPsamlRUqnG7JaYWRex7rURhKaHtCw/preview" },
+                { "title": "الكيانات الرئيسية", "url": "https://drive.google.com/file/d/1YaI64yeREPICflI59eJy2EWXHqUZB9kS/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الرابع",
+            "topics": [
+                { "title": "الخطة الاستراتيجية", "url": "https://drive.google.com/file/d/1x5rH_3bJ_D4jZOdp_iRR1koIn6pu6dR0/preview" },
+                { "title": "التجربة المصرية", "url": "https://drive.google.com/file/d/1v2wLn6I7krwhYaoriOADflWkEwGNGfys/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الخامس",
+            "topics": [
+                { "title": "المبادرة (i)", "url": "https://drive.google.com/file/d/19fhIzMD-_d1_ebhnOcng_M0wTh3sKBer/preview" },
+                { "title": "لجنة بناء القدرات", "url": "https://drive.google.com/file/d/1hnMDP8mBEGZ0ePCjMU4o3bPQBC2kykTV/preview" },
+                { "title": "لجنة المعايير المهنية", "url": "https://drive.google.com/file/d/1j5ERzK-cTu85wfpPFL2bC4U1flcSb0ql/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم السادس",
+            "topics": [
+                { "title": "لجنة القضايا الناشئة", "url": "https://drive.google.com/file/d/1Rpoecj4bu9-dYKfMuc3QadhPNAa_1gNy/preview" },
+                { "title": "لجنة اهداف التنمية المستدامة", "url": "https://drive.google.com/file/d/1JV2Sgeq38QxyIhwe5qroPagwfyJtca5Q/preview" },
+                { "title": "لجنة الصناعات الاستخراجية ", "url": "https://drive.google.com/file/d/1DbJp_XRa_QlThoAE-heifon8TrtJyKuc/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم السابع",
+            "topics": [
+                { "title": "مجموعة اثر العلوم والتكنولوجيا", "url": "https://drive.google.com/file/d/1U0FfN1qSvUL2kCCZWgPeiEUrspOGD1tw/preview" },
+                { "title": "فريق البيانات الضخمة", "url": "https://drive.google.com/file/d/10l8QEFDpK9gsFhSbgDZhpMi2SMizaV7D/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الثامن",
+            "topics": [
+                { "title": "جاري", "url": "https://drive.google.com/file/d/1N_DXos-d83tFtFolVzKUk1p-xXUIiDlg/preview" },
+                { "title": "جاري", "url": "https://drive.google.com/file/d/1NxpCiJiAaU5cueIvXRRIZayzePhd7mXk/preview" }
+            ]
+        }
+    ]
+}
