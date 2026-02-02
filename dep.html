@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة الاهلاك - طلال السريتي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <style>
+         :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e67e22;
+            --bg-color: #f4f7f6;
+            --white: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            user-select: none;
+            /* منع تحديد النص */
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+        /* حماية المحتوى */
+        
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .logo-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent-color);
+        }
+        
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .app-title {
+            text-align: center;
+        }
+        
+        .app-title h1 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .app-title p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        /* تنسيق قسم التعليمات */
+        
+        .instructions-panel {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #27ae60;
+            /* تمييز اللون للأخضر ليدل على المساعدة */
+        }
+        
+        .instructions-header {
+            background: #27ae60;
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .instructions-content {
+            padding: 20px;
+            display: none;
+            /* مخفي افتراضياً */
+            line-height: 1.8;
+        }
+        
+        .instructions-content.active {
+            display: block;
+        }
+        
+        .step-card {
+            border-right: 4px solid var(--accent-color);
+            background: #f9f9f9;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+        
+        .info-table th,
+        .info-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .info-table th {
+            background-color: #eee;
+        }
+        
+        .note-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        /* قسم الخيارات المتطور */
+        
+        .settings-panel {
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        
+        .settings-header {
+            background: var(--secondary-color);
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .settings-content {
+            padding: 20px;
+            display: none;
+            /* مخفي افتراضياً */
+        }
+        
+        .settings-content.active {
+            display: block;
+        }
+        
+        .group-box {
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .group-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+        
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        input[type="date"],
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        /* سحب وإفلات */
+        
+        .upload-area {
+            border: 2px dashed var(--accent-color);
+            background: #fff9f5;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .upload-area:hover {
+            background: #fff0e6;
+        }
+        
+        .btn-process {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .btn-process:hover {
+            background: #219150;
+        }
+        /* منطقة السجلات */
+        
+        #log-area {
+            background: #222;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            margin-top: 20px;
+            font-size: 0.85em;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid #ccc;
+            color: #777;
+        }
+        
+        .arrow-icon {
+            transition: transform 0.3s;
+        }
+        
+        .rotated {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="https://talalcer.github.io/fuel-img/mizan.png" alt="Company Logo">
+        </div>
+
+        <div class="app-title">
+            <h1>حاسبة الاهلاك</h1>
+            <p>جميع الحقوق محفوظة &copy; طلال السريتي <br> talalcer@gmail.com</p>
+        </div>
+
+        <div class="logo-container">
+            <img src="https://talalcer.github.io/fuel-img/talal512.png" alt="Personal Logo">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="instructions-panel">
+            <div class="instructions-header" onclick="uiManager.toggleInstructions()">
+                <span>📖 تعليمات استخدام تطبيق حاسبة الاهلاك</span>
+                <span class="arrow-icon" id="ins-arrow">▼</span>
+            </div>
+            <div class="instructions-content" id="instructionsContent">
+
+                <div class="step-card">
+                    <strong>1. تجهيز الملف:</strong>يتم تنزيل ملف الإكسيل وتعديل الأصناف به عبر الرابط . <a href="https://docs.google.com/spreadsheets/d/1u4UQw1xUVIpKeLODgGh9h8tcdeCVnv_X/export?format=xlsx">اضغط هنا لتحميل الملف.</a>
+                </div>
+                <div class="step-card">
+                    <strong>2. شيت (basic):</strong> يجب أولاً ضبط المجموعات الرئيسية، العمر الافتراضي، مراكز التكلفة، وطريقة التمويل قبل تسجيل الأصناف.
+                    <table class="info-table">
+                        <tr>
+                            <th>النوع</th>
+                            <th>العمر الافتراضي</th>
+                            <th>مركز التكلفة</th>
+                        </tr>
+                        <tr>
+                            <td>أجهزة وآلات</td>
+                            <td>10 سنوات</td>
+                            <td>الطوارئ</td>
+                        </tr>
+                        <tr>
+                            <td>أثاث</td>
+                            <td>5 سنوات</td>
+                            <td>عمليات</td>
+                        </tr>
+                    </table>
+                    <div class="note-box">
+                        ⚠️ **تنبيه:** البيانات مصممة بنظام Table، لذا أضف البيانات في نهاية كل جدول مباشرة دون ترك صفوف فارغة.
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <strong>3. تسجيل الأصناف :</strong> يتم إدخال البيانات في شيت data، حيث تعمل حقول (التمويل، المركز، النوع) بنظام القوائم المنسدلة (List) لتقليل الأخطاء.
+                </div>
+
+                <div class="step-card">
+                    <strong>4. المعالجة:</strong> بعد الانتهاء، اسحب الملف إلى التطبيق أو افتحه من الداخل، وسيقوم التطبيق بإنشاء ملف جديد يحتوي على قيمة الاهلاك ومخصص الاهلاك.
+                </div>
+
+            </div>
+        </div>
+        <div class="settings-panel">
+            <div class="settings-header" onclick="uiManager.toggleSettings()">
+                <span>طريقة حساب الاهلاك قسط ثابت (الاختيارات)</span>
+                <span class="arrow-icon" id="arrow">▼</span>
+            </div>
+            <div class="settings-content" id="settingsContent">
+                <div class="group-box">
+                    <div class="group-title">اختار بداية الاهلاك</div>
+                    <!-- <label><input type="radio" name="depway" value="day" checked> بداية من يوم الإضافة</label><br> -->
+                    <label><input type="radio" name="depway" value="month" checked> بداية من شهر الإضافة</label><br>
+                    <label><input type="radio" name="depway" value="period"> بداية من فترة الإضافة</label>
+                </div>
+
+                <div class="group-box">
+                    <div class="group-title">اختار مدة الاهلاك</div>
+                    <div class="input-row">
+                        <label><input type="radio" name="depper" value="month" checked> شهر بداية من:</label>
+                        <input type="date" id="date_month" onchange="uiManager.updateDates('month')">
+                        <span>إلى:</span>
+                        <input type="text" id="end_month" readonly>
+                    </div>
+                    <div class="input-row">
+                        <label><input type="radio" name="depper" value="quarter"> فترة (Quarter) بداية من:</label>
+                        <input type="date" id="date_quarter" onchange="uiManager.updateDates('quarter')">
+                        <span>إلى:</span>
+                        <input type="text" id="end_quarter" readonly>
+                    </div>
+                    <div class="input-row">
+                        <label><input type="radio" name="depper" value="year"> سنة بداية من:</label>
+                        <input type="date" id="date_year" onchange="uiManager.updateDates('year')">
+                        <span>إلى:</span>
+                        <input type="text" id="end_year" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-area" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <p>اسحب وأفلت ملف الاكسيل هنا أو اضغط للاختيار</p>
+            <input type="file" id="fileInput" hidden accept=".xlsx, .xls">
+            <div id="fileNameDisplay" style="margin-top:10px; font-weight:bold; color:var(--accent-color);"></div>
+        </div>
+
+        <button class="btn-process" onclick="app.startProcessing()">بدء المعالجة</button>
+
+        <div id="log-area"></div>
+    </div>
+
+    <footer>
+        تصميم: طلال السريتي &copy; | Talal Cerity 2025
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. جلب العناصر المطلوبة
+            const depwayRadios = document.querySelectorAll('input[name="depway"]');
+
+            // جلب الصف (div) الخاص بـ "شهر بداية من" عن طريق البحث عن الراديو ثم الرجوع للحاوية الأب
+            const monthRow = document.querySelector('input[name="depper"][value="month"]').closest('.input-row');
+
+            // جلب الحقول داخل هذا الصف لتعطيلها
+            const monthRadio = monthRow.querySelector('input[type="radio"]');
+            const dateInput = document.getElementById('date_month');
+
+            // جلب خيار الفترة (Quarter) لجعله مختاراً عند الحاجة
+            const quarterRadio = document.querySelector('input[name="depper"][value="quarter"]');
+
+            // 2. إضافة المستمع للأحداث
+            depwayRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const selectedValue = this.value;
+
+                    if (selectedValue === 'period') {
+                        // --- حالة: اختيار "فترة الإضافة" ---
+
+                        // أ. تغيير مظهر الـ Div (جعله باهتاً وغير قابل للنقر)
+                        monthRow.style.opacity = "0.5"; // تقليل الشفافية
+                        monthRow.style.pointerEvents = "none"; // منع أي تفاعل مع النقرات داخل الـ Div
+
+                        // ب. تعطيل الحقول الداخلية رسمياً
+                        monthRadio.disabled = true;
+                        dateInput.disabled = true;
+
+                        // ج. تفعيل خيار الفترة
+                        quarterRadio.checked = true;
+
+                        // تحديث التواريخ
+                        if (typeof uiManager !== 'undefined' && uiManager.updateDates) {
+                            uiManager.updateDates('quarter');
+                        }
+
+                    } else {
+                        // --- حالة: العودة لـ "شهر الإضافة" ---
+
+                        // أ. إعادة مظهر الـ Div للوضع الطبيعي
+                        monthRow.style.opacity = "1";
+                        monthRow.style.pointerEvents = "auto";
+
+                        // ب. إلغاء التعطيل عن الحقول الداخلية
+                        monthRadio.disabled = false;
+                        dateInput.disabled = false;
+
+                        // ج. تفعيل خيار الشهر
+                        monthRadio.checked = true;
+
+                        // تحديث التواريخ
+                        if (typeof uiManager !== 'undefined' && uiManager.updateDates) {
+                            uiManager.updateDates('month');
+                        }
+                    }
+                });
+            });
+        });
+
+
+        /**
+         * نظام الحماية والأمان
+         */
+        (function protect() {
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.onkeydown = function(e) {
+                if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+                    return false;
+                }
+            };
+            document.addEventListener('copy', e => e.preventDefault());
+        })();
+
+        /**
+         * كلاس إدارة الواجهة (UI Manager)
+         */
+        class UIManager {
+            constructor() {
+                this.logElement = document.getElementById('log-area');
+            }
+
+            // أضف هذه الدالة للتحكم في فتح وإغلاق التعليمات
+            toggleInstructions() {
+                const content = document.getElementById('instructionsContent');
+                const arrow = document.getElementById('ins-arrow');
+                content.classList.toggle('active');
+                arrow.classList.toggle('rotated');
+            }
+
+            toggleSettings() {
+                const content = document.getElementById('settingsContent');
+                const arrow = document.getElementById('arrow');
+                content.classList.toggle('active');
+                arrow.classList.toggle('rotated');
+            }
+
+            log(message, type = 'info') {
+                const time = new Date().toLocaleTimeString();
+                const msgHtml = `<div>[${time}] ${type.toUpperCase()}: ${message}</div>`;
+                this.logElement.innerHTML += msgHtml;
+                this.logElement.scrollTop = this.logElement.scrollHeight;
+            }
+
+            updateDates(type) {
+                const input = document.getElementById(`date_${type}`);
+                const endInput = document.getElementById(`end_${type}`);
+                let date = new Date(input.value);
+
+                if (isNaN(date.getTime())) return;
+
+                // إجبار اليوم على 1
+                date.setDate(1);
+                input.value = date.toISOString().split('T')[0];
+
+                let endDate = new Date(date);
+                if (type === 'month') {
+                    endDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+                } else if (type === 'quarter') {
+                    let quarterEndMonth = (Math.floor(date.getMonth() / 3) + 1) * 3;
+                    endDate = new Date(date.getFullYear(), quarterEndMonth, 1);
+                } else if (type === 'year') {
+                    endDate = new Date(date.getFullYear(), 12, 1);
+                }
+                endInput.value = endDate.toISOString().split('T')[0];
+            }
+        }
+
+        const uiManager = new UIManager();
+
+        /**
+         * كلاس المحرك الرئيسي (Depreciation App) - تطبيق الـ Encapsulation
+         */
+        class DepreciationApp {
+            constructor() {
+                this.selectedFile = null;
+                this.data = {
+                    mdata: [],
+                    type: []
+                };
+                this.setupListeners();
+            }
+
+            setupListeners() {
+                const fileInput = document.getElementById('fileInput');
+                const dropZone = document.getElementById('dropZone');
+
+                fileInput.addEventListener('change', (e) => this.handleFiles(e.target.files));
+                dropZone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    dropZone.style.borderColor = '#2ecc71';
+                });
+                dropZone.addEventListener('dragleave', () => {
+                    dropZone.style.borderColor = '#e67e22';
+                });
+                dropZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    this.handleFiles(e.dataTransfer.files);
+                });
+            }
+
+            handleFiles(files) {
+                if (files.length > 0) {
+                    this.selectedFile = files[0];
+                    document.getElementById('fileNameDisplay').innerText = "تم اختيار: " + this.selectedFile.name;
+                    uiManager.log(`تم تحميل الملف: ${this.selectedFile.name}`);
+                }
+            }
+
+            async startProcessing() {
+                if (!this.selectedFile) {
+                    uiManager.log("خطأ: يرجى اختيار ملف أولاً", "error");
+                    return;
+                }
+
+                try {
+                    uiManager.log("بدء قراءة الملف...");
+                    const workbook = await this.readFile(this.selectedFile);
+
+                    // استخراج البيانات
+                    this.data.mdata = XLSX.utils.sheet_to_json(workbook.Sheets['data'] || workbook.Sheets[Object.keys(workbook.Sheets)[0]]);
+                    this.data.type = XLSX.utils.sheet_to_json(workbook.Sheets['basic'] || workbook.Sheets[Object.keys(workbook.Sheets)[1]]);
+
+                    uiManager.log("جاري معالجة البيانات والعمليات المحاسبية...");
+                    this.processLogic();
+
+                } catch (err) {
+                    uiManager.log(`فشل أثناء المعالجة: ${err.message}`, "error");
+                }
+            }
+
+            readFile(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(XLSX.read(e.target.result, {
+                        type: 'binary',
+                        cellDates: true
+                    }));
+                    reader.onerror = reject;
+                    reader.readAsBinaryString(file);
+                });
+            }
+
+
+
+            processLogic() {
+                const depway = document.querySelector('input[name="depway"]:checked').value;
+                const depper = document.querySelector('input[name="depper"]:checked').value;
+
+                // dstart & dend من الاختيارات
+                const dstart = new Date(document.getElementById(`date_${depper}`).value);
+                const dend = new Date(document.getElementById(`end_${depper}`).value);
+
+                if (isNaN(dstart) || isNaN(dend)) {
+                    throw new Error("يرجى التأكد من اختيار تواريخ المجموعة الثانية");
+                }
+
+                const resultData = this.data.mdata.map(row => {
+                    try {
+                        // وظيفة مساعدة لتنظيف النص وتوحيده
+                        const cleanText = (text) => {
+                            if (!text) return "";
+                            return text.toString()
+                                .trim() // حذف المسافات في البداية والنهاية
+                                .replace(/\s+/g, ' ') // تحويل المسافات المتعددة إلى مسافة واحدة فقط
+                                .replace(/[أإآ]/g, 'ا') // توحيد الألف
+                                .replace(/ة/g, 'ه'); // توحيد التاء المربوطة والهاء
+                        };
+
+                        // 1. جلب العمر الافتراضي (الكود المحدث)
+                        const rowTypeClean = cleanText(row['النوع']);
+                        const typeInfo = this.data.type.find(t => cleanText(t['النوع']) === rowTypeClean);
+
+                        const life = typeInfo ? parseFloat(typeInfo['العمر الافتراضي']) : 0;
+                        row['العمر الافتراضي'] = life;
+
+                        // إذا لم يجد القيمة، نكتب ملاحظة في السجلات
+                        if (life === 0) {
+                            uiManager.log(`تنبيه: لم يتم العثور على عمر افتراضي للنوع: "${row['النوع']}"`, "warn");
+                        }
+
+                        // 2. حساب astart بناء على depway
+                        let astart = new Date(row['التاريخ']);
+                        if (depway === 'month') {
+                            astart.setDate(0);
+                        } else if (depway === 'period') {
+                            let qStartMonth = Math.floor(astart.getMonth() / 3) * 3;
+                            astart = new Date(astart.getFullYear(), qStartMonth, 1);
+                        }
+
+                        // --- التعديل الجديد لحساب aend ---
+                        // 1. إضافة دالة مساعدة لحساب الفرق بالأشهر (توضع خارج الدالة أو في البداية)
+                        const getMonthsDiff = (date1, date2) => {
+                            if (!date1 || !date2) return 0;
+                            let months;
+                            months = (date2.getFullYear() - date1.getFullYear()) * 12;
+                            months -= date1.getMonth();
+                            months += date2.getMonth();
+                            months += 1; // لجعل الشهر الحالي محسوباً بالكامل
+                            // إضافة الفرق بالأيام ككسر من الشهر (باستخدام متوسط 30.4167 يوم للشهر)
+                            // هذا يضمن دقة الحساب للفترات الجزئية
+                            // const dayDiff = date2.getDate() - date1.getDate();
+                            // months += dayDiff / 30.4167;
+
+                            return months <= 0 ? 0 : months;
+                            // return months < 0 ? 0 : (months === 0 ? 1 : months);
+                        };
+
+                        // --- التعديل الجديد لحساب aend ---
+                        let aend = new Date(astart); // نسخ تاريخ البداية
+
+                        // إضافة السنوات الكاملة (تعمل هذه الدالة بدقة مع السنوات الكبيسة)
+                        const fullYears = Math.floor(life);
+                        aend.setFullYear(aend.getFullYear() + fullYears);
+
+                        // إضافة الكسور المتبقية من السنة (إن وجدت) بناء على 365.25
+                        const remainingDays = Math.round((life - fullYears) * 365.25);
+                        if (remainingDays > 0) {
+                            aend.setDate(aend.getDate() + remainingDays);
+                        }
+
+                        // طرح يوم واحد لأن تاريخ نهاية الاهلاك هو آخر يوم في المدة وليس اليوم التالي
+                        aend.setDate(aend.getDate() - 1);
+                        // -------------------------------
+
+                        row['تاريخ بداية الاهلاك'] = astart;
+                        row['تاريخ نهاية الاهلاك'] = aend;
+
+                        // تعديل المتغيرات الخاصة بالحساب
+                        let vdep = 0,
+                            vaccum = 0,
+                            notes = "";
+                        const value = parseFloat(row['القيمة']) || 0;
+
+                        // تغيير المجموع الكلي من أيام إلى أشهر
+                        const totalMonths = life * 12;
+
+                        if (dend < row['التاريخ']) {
+                            notes = "تاريخ الإضافة لاحق لتاريخ حساب الاهلاك";
+                        } else if (dstart > aend) {
+                            vaccum = value;
+                            notes = "الأصل اهلك دفتريا";
+                        } else if (dstart > astart && aend > dend) {
+                            // استخدام دالة getMonthsDiff بدلاً من حساب المللي ثانية
+                            vaccum = value * (getMonthsDiff(astart, dend) / totalMonths);
+                            vdep = value * (getMonthsDiff(dstart, dend) / totalMonths);
+                        } else if (dstart > astart && aend < dend) {
+                            vaccum = value;
+                            vdep = value * (getMonthsDiff(dstart, aend) / totalMonths);
+                            notes = "الأصل اهلك دفتريا خلال المدة";
+                        } else if (dstart < astart && aend > dend) {
+                            vaccum = value * (getMonthsDiff(astart, dend) / totalMonths);
+                            vdep = vaccum;
+                            notes = "اول مدة لحساب اهلاك الاصل";
+                        }
+                        // ملاحظة: تم استخدام طريقة التقريب القياسية (ضرب في 100 ثم القسمة) للحصول على منزلتين عشريتين
+                        row['اهلاك الفترة'] = Math.round(vdep * 100) / 100;
+                        row['مخصص الاهلاك في نهاية الفترة'] = Math.round(vaccum * 100) / 100;
+                        row['ملاحظات'] = notes;
+
+                        return row;
+
+                    } catch (e) {
+                        uiManager.log(`خطأ في سطر: ${e.message}`, "error");
+                        return row;
+                    }
+                });
+
+                this.exportExcel(resultData);
+            }
+
+
+            exportExcel(data) {
+                const wb = XLSX.utils.book_new();
+                wb.Workbook = {
+                    Views: [{
+                        RTL: true
+                    }]
+                };
+                // تحويل البيانات وحساب الإجماليات
+                const wsData = [...data];
+                // const totals = {
+                //     'التاريخ': 'الإجمالي',
+                //     'vdep': 0,
+                //     'vaccum': 0
+                // };
+                // data.forEach(r => {
+                //     totals.vdep += (r['اهلاك الفترة'] || 0);
+                //     totals.vaccum += (r['مخصص الاهلاك في نهاية الفترة'] || 0);
+                // });
+                // wsData.push(totals);
+
+                const ws = XLSX.utils.json_to_sheet(wsData, {
+                    origin: "A6"
+                });
+
+                // إضافة العناوين
+                XLSX.utils.sheet_add_aoa(ws, [
+                    ["تقرير بيانات الاهلاك التفصيلي عن الفترة من " + document.getElementById(`date_${document.querySelector('input[name="depper"]:checked').value}`).value +
+                        " إلى " + document.getElementById(`end_${document.querySelector('input[name="depper"]:checked').value}`).value
+                    ]
+                ], {
+                    origin: "C1"
+                });
+
+                // ضبط الاتجاه RTL (عبر خصائص الـ workbook)
+                if (!wb.Workbook) wb.Workbook = {};
+                if (!wb.Workbook.Views) wb.Workbook.Views = [{}];
+                wb.Workbook.Views[0].rtl = true;
+
+                // ضبط عرض الأعمدة
+                const wscols = [];
+                for (let i = 0; i < 20; i++) wscols.push({
+                    wch: 15
+                });
+                ws['!cols'] = wscols;
+
+                XLSX.utils.book_append_sheet(wb, ws, "بيانات الاهلاك");
+
+                // توليد الجداول المحورية (Pivot Logic)
+                this.addPivotSheet(wb, data, 'النوع', 'الاهلاك حسب النوع');
+                this.addPivotSheet(wb, data, 'مركز تكلفة', 'الاهلاك حسب مركز التكلفة');
+                this.addPivotSheet(wb, data, 'التمويل', 'الاهلاك حسب التمويل(هدايا)');
+
+                XLSX.writeFile(wb, `تقرير_الاهلاك_2025.xlsx`);
+                uiManager.log("تم استخراج ملف الاكسيل بنجاح!", "success");
+            }
+
+
+            addPivotSheet(wb, data, key, sheetName) {
+                const pivotMap = {};
+
+                // 1. تجميع البيانات (Grouping & Aggregation)
+                data.forEach(r => {
+                    const k = r[key] || "غير محدد";
+                    if (!pivotMap[k]) {
+                        pivotMap[k] = {
+                            [key]: k,
+                            'القيمة': 0,
+                            'الاهلاك': 0,
+                            'مخصص الاهلاك': 0
+                        };
+                    }
+                    pivotMap[k]['القيمة'] += (parseFloat(r['القيمة']) || 0);
+                    pivotMap[k]['الاهلاك'] += (parseFloat(r['اهلاك الفترة']) || 0);
+                    pivotMap[k]['مخصص الاهلاك'] += (parseFloat(r['مخصص الاهلاك في نهاية الفترة']) || 0);
+                });
+
+                // 2. تحويل الخريطة إلى مصفوفة بيانات
+                const pivotData = Object.values(pivotMap);
+
+                // 3. حساب الإجمالي العام (Grand Totals)
+                const grandTotal = {
+                    [key]: 'الإجمالي العام',
+                    'القيمة': 0,
+                    'الاهلاك': 0,
+                    'مخصص الاهلاك': 0
+                };
+
+                pivotData.forEach(row => {
+                    grandTotal['القيمة'] += row['القيمة'];
+                    grandTotal['الاهلاك'] += row['الاهلاك'];
+                    grandTotal['مخصص الاهلاك'] += row['مخصص الاهلاك'];
+                });
+
+                // إضافة سطر الإجمالي في نهاية المصفوفة
+                pivotData.push(grandTotal);
+
+                // 4. تحويل المصفوفة إلى شيت إكسيل
+                const ws = XLSX.utils.json_to_sheet(pivotData, {
+                    origin: "A6" // يبدأ الجدول من الصف السادس
+                });
+
+                // 5. ضبط اتجاه الشيت ليصبح من اليمين لليسار وتنسيق العرض
+                // ws['!dir'] = "rtl";
+                ws['!views'] = {
+                    RTL: true
+                };
+                const wscols = [{
+                        wch: 20
+                    }, // العمود الأول (الاسم)
+                    {
+                        wch: 15
+                    }, // القيمة
+                    {
+                        wch: 15
+                    }, // الاهلاك
+                    {
+                        wch: 15
+                    } // مخصص الاهلاك
+                ];
+                ws['!cols'] = wscols;
+                // 1. جلب القيم المطلوبة أولاً وتخزينها في متغيرات لضمان وجودها
+                const depperValue = document.querySelector('input[name="depper"]:checked').value;
+
+                // تأكد من وجود القيم قبل الاستخدام لتجنب الأخطاء
+                const dateVal = document.getElementById(`date_${depperValue}`).value;
+                const endVal = document.getElementById(`end_${depperValue}`).value;
+
+                // 2. تجهيز نص العنوان
+                // (تأكد من أن المتغير sheetName معرف لديك، أو ضع اسم ثابت مثل "تقرير الاهلاك")
+                const titleText = `${sheetName} عن الفترة من ${dateVal} إلى ${endVal}`;
+                // 6. إضافة اسم التقرير في الأعلى
+                XLSX.utils.sheet_add_aoa(ws, [
+                    [titleText]
+                ], {
+                    origin: "C1"
+                });
+
+                // 7. إضافة الشيت إلى ملف العمل
+                XLSX.utils.book_append_sheet(wb, ws, sheetName);
+            }
+        }
+        const app = new DepreciationApp();
+    </script>
+</body>
+
+</html>
