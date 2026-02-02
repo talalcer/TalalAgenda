@@ -62,9 +62,11 @@
         {
             "groupName": "اليوم الثامن",
             "topics": [
-                { "title": "جاري", "url": "https://drive.google.com/file/d/1N_DXos-d83tFtFolVzKUk1p-xXUIiDlg/preview" },
-                { "title": "جاري", "url": "https://drive.google.com/file/d/1NxpCiJiAaU5cueIvXRRIZayzePhd7mXk/preview" }
+                { "title": "مجموعة الاستقرار المالي", "url": "https://drive.google.com/file/d/1feB1hlYrj-uZVV_U57jRPlhhsgOVUBlR/preview" },
+                { "title": "إطار قياس أداء الاجهزة الرقابية", "url": "https://drive.google.com/file/d/1XByW3sEi5XsGSmVtL7Bq3sLQySnABJ5D/preview" },
+                { "title": "دليل التقييم الذاتي للنزاهة", "url": "https://drive.google.com/file/d/1QNj-4LA27PnW3BWexuvBbEPHtEBlxooA/preview" }
             ]
         }
     ]
+
 }
