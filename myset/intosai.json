@@ -74,8 +74,45 @@
                 { "title": "لجنة السياسات والشئون المالية", "url": "https://drive.google.com/file/d/1JK6MdpFKozdxCpbQH0P8qoKFjn7TKNXF/preview" },
                 { "title": "دور الاجهزة في تحقيق اهداف التنمية المستدامة", "url": "https://drive.google.com/file/d/1O4X2F8Yw7Y1dvWACD6xNe2azF2TkH9JU/preview" }
             ]
+        },
+        {
+            "groupName": "اليوم العاشر",
+            "topics": [
+                { "title": "إطار كوسو", "url": "https://drive.google.com/file/d/1xEJr6Pki8TWtmrUDpGTMobhtDIHo67C2/preview" },
+                { "title": "خطوط الدفع الثلاثة", "url": "https://drive.google.com/file/d/17Ri24zoIer9oF550IFfrYdOKAvwSfHts/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الحادي عشر",
+            "topics": [
+                { "title": "إطار الاصدارات المهنية", "url": "https://drive.google.com/file/d/1yDIVkvVwcKPxCszLfBuGPuKN6JbgaZog/preview" },
+                { "title": "منتدى الاصدارات المهنية", "url": "https://drive.google.com/file/d/1tcdfQo40InuBIlTD0InwoGEw7U_Cs4Jw/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الثاني عشر",
+            "topics": [
+                { "title": "التقرير العالمي لتقييم الأجهزة العليا", "url": "https://drive.google.com/file/d/1DDe_EFMA4eMuMo1U5pDW8cQRlDCbeYuF/preview" },
+                { "title": "مبادرة تكنولوجيا المعلومات", "url": "https://drive.google.com/file/d/1Q8jbz1AvWU9Ko2wYdtg138dbqS6o5w5r/preview" },
+                { "title": "برنامج PESA", "url": "https://drive.google.com/file/d/1S-BKeGWcCw2IZ8d0bS6WtTUMTWpBrpkd/preview" },
+                { "title": "مبادرة حوكمة الموارد البشرية", "url": "https://drive.google.com/file/d/11uRkTjZrbl-rASSWFAbVxSbiXEc6laq2/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الثالث عشر",
+            "topics": [
+                { "title": "مبادرة إدارة المخاطر", "url": "/preview" },
+                { "title": "مبادرة التقدم التكنولوجي", "url": "/preview" },
+                { "title": "مبادرة مستقبل متكافئ", "url": "/preview" },
+                { "title": "كيانات رئيسية بالانتوساي", "url": "/preview" }
+            ]
+        },
+        {
+            "groupName": "اليوم الرابع عشر",
+            "topics": [
+                { "title": "مراجعة المنظمات الدولية", "url": "/preview" },
+                { "title": "مراجعة المنظمات الاقليمية", "url": "/preview" }
+            ]
         }
     ]
-
 }
-
