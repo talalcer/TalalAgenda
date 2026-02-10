@@ -1,29 +1,45 @@
 {
-    "folder": "https://talalcer.github.io/mypo/",
+    "folder": "drive",
     "extension": ".tec",
-    "links": [
-        { "title": " مراجعة IT System Audit", "file": "itodit" },
-        { "title": " مراجعة العملاء", "file": "reciv" },
-        { "title": " مراجعة المخزون", "file": "invent" },
-        { "title": "اجراءات تحليلية ISA 520", "file": "analy_proc" },
-        { "title": "مراجعة وتقييم نظام الرقابة الداخلية", "file": "int_audit" },
-        { "title": "خطاب الادارة", "file": "manlet" },
-        { "title": "الآهداف العامة للمراجع", "file": "gnrlobjct" },
-        { "title": "جمع وتقييم ادلة المراجعة", "file": "collctevdnc" }
-
+    "links": [{
+            "title": "مراجعة IT System Audit",
+            "file": "itodit",
+            "driveId": "1_PLACEHOLDER_ID_FOR_IT_SYSTEM"
+        },
+        {
+            "title": "مراجعة العملاء",
+            "file": "reciv",
+            "driveId": "1_PLACEHOLDER_ID_FOR_CUSTOMERS"
+        },
+        {
+            "title": "مراجعة المخزون",
+            "file": "invent",
+            "driveId": "1_PLACEHOLDER_ID_FOR_INVENTORY"
+        },
+        {
+            "title": "اجراءات تحليلية ISA 520",
+            "file": "analy_proc",
+            "driveId": "1_PLACEHOLDER_ID_FOR_ISA520"
+        },
+        {
+            "title": "مراجعة وتقييم نظام الرقابة الداخلية",
+            "file": "int_audit",
+            "driveId": "1_PLACEHOLDER_ID_FOR_INTERNAL_CONTROL"
+        },
+        {
+            "title": "خطاب الادارة",
+            "file": "manlet",
+            "driveId": "1_PLACEHOLDER_ID_FOR_MANAGEMENT_LETTER"
+        },
+        {
+            "title": "الآهداف العامة للمراجع",
+            "file": "gnrlobjct",
+            "driveId": "1F9rhiG6zAvr5mUpIw-cmQenG5PfniXKK"
+        },
+        {
+            "title": "جمع وتقييم ادلة المراجعة",
+            "file": "collctevdnc",
+            "driveId": "1UDeievagwqwgFgRTghE2-Iol6jvUbXmU"
+        }
     ]
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
