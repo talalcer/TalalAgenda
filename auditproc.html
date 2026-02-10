@@ -378,8 +378,8 @@
 
                 // رابط جوجل درايف المباشر للتنزيل
                 // ملاحظة: قد تتطلب الملفات أن تكون عامة (Anyone with the link) لتجنب مشاكل CORS
-                //const url = `https://drive.google.com/uc?export=download&id=${fileConfig.driveId}`;
-                const url = `https://drive.google.com/file/d/${fileConfig.driveId}/preview`;
+                const url = `https://drive.google.com/uc?export=download&id=${fileConfig.driveId}`;
+                //const url = `https://drive.google.com/file/d/${fileConfig.driveId}/preview`;
                 try {
                     // نستخدم fetch للحصول على blob
                     const response = await fetch(url);
@@ -531,4 +531,5 @@
 </body>
 
 </html>
+
 
