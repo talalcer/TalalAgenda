@@ -378,28 +378,51 @@
 
                 // رابط جوجل درايف المباشر للتنزيل
                 // ملاحظة: قد تتطلب الملفات أن تكون عامة (Anyone with the link) لتجنب مشاكل CORS
-                const url = `https://drive.google.com/uc?export=download&id=${fileConfig.driveId}`;
-                //const url = `https://drive.google.com/file/d/${fileConfig.driveId}/preview`;
+                // const url = `https://drive.google.com/uc?export=download&id=${fileConfig.driveId}`;
+                // //const url = `https://drive.google.com/file/d/${fileConfig.driveId}/preview`;
+                // try {
+                //     // نستخدم fetch للحصول على blob
+                //     const response = await fetch(url);
+                //     if (!response.ok) throw new Error('Network response was not ok');
+                //     const blob = await response.blob();
+                //     const objectUrl = URL.createObjectURL(blob);
+
+                //     const loadingTask = pdfjsLib.getDocument(objectUrl);
+                //     this.pdfDoc = await loadingTask.promise;
+
+                //     document.getElementById('page_count').textContent = this.pdfDoc.numPages;
+                //     document.getElementById('loading-msg').style.display = 'none';
+                //     document.getElementById('toolbar').style.display = 'flex';
+
+                //     this.pageNum = 1;
+                //     this.renderPage(this.pageNum);
+
+                // } catch (error) {
+                //     console.error(error);
+                //     document.getElementById('loading-msg').innerText = 'تعذر تحميل الملف (تأكد من صلاحيات المشاركة)';
+                // }
+
+
+                // استخدام وكيل مجاني لحل مشكلة CORS
+                const proxy = "https://corsproxy.io/?";
+                const driveUrl = `https://drive.google.com/uc?export=download&id=${fileConfig.driveId}`;
+                const url = proxy + encodeURIComponent(driveUrl);
+
                 try {
-                    // نستخدم fetch للحصول على blob
                     const response = await fetch(url);
                     if (!response.ok) throw new Error('Network response was not ok');
+
                     const blob = await response.blob();
                     const objectUrl = URL.createObjectURL(blob);
 
-                    const loadingTask = pdfjsLib.getDocument(objectUrl);
+                    const loadingTask = pdfjsLib.getDocument({
+                        url: objectUrl,
+                        // هذه الإعدادات تساعد في تحسين الأداء وتفادي مشاكل الخطوط
+                        disableFontFace: false
+                    });
+
                     this.pdfDoc = await loadingTask.promise;
-
-                    document.getElementById('page_count').textContent = this.pdfDoc.numPages;
-                    document.getElementById('loading-msg').style.display = 'none';
-                    document.getElementById('toolbar').style.display = 'flex';
-
-                    this.pageNum = 1;
-                    this.renderPage(this.pageNum);
-
-                } catch (error) {
-                    console.error(error);
-                    document.getElementById('loading-msg').innerText = 'تعذر تحميل الملف (تأكد من صلاحيات المشاركة)';
+                    // ... باقي الكود كما هو
                 }
             }
 
@@ -531,5 +554,3 @@
 </body>
 
 </html>
-
-
