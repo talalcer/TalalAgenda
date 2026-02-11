@@ -110,10 +110,11 @@
         {
             "groupName": "اليوم الرابع عشر",
             "topics": [
-                { "title": "مراجعة المنظمات الدولية", "url": "/preview" },
-                { "title": "مراجعة المنظمات الاقليمية", "url": "/preview" }
+                { "title": "مراجعة المنظمات الدولية", "url": "https://drive.google.com/file/d/1EageW3e3EYV5cpL98DcjBNGe6sm9I4JV/preview" },
+                { "title": "مراجعة المنظمات الاقليمية", "url": "https://drive.google.com/file/d/1JjSBiS2-8V1_lVsWBm_p-p4XN2RIqYpi/preview" }
             ]
         }
     ]
 }
+
 
